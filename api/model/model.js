@@ -1,4 +1,4 @@
-// Creating the Tables
+// Creating the Tables - to write the sql queries
 
 const userTable = `CREATE TABLE IF NOT EXISTS user(
     userId INT NOT NULL AUTO_INCREMENT,
