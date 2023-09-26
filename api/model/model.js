@@ -11,9 +11,9 @@ const userTable = `CREATE TABLE IF NOT EXISTS user(
 const questionTable = `CREATE TABLE IF NOT EXISTS question(
         questionId INT NOT NULL AUTO_INCREMENT,
         question VARCHAR(255) NOT NULL, 
-        questionDescription VARCHAR(255) NOT NULL, 
-        questionCodeBlock VARCHAR(255) NOT NULL, 
-        tags VARCHAR(255) NOT NULL, 
+        questionDescription VARCHAR(255) , 
+        questionCodeBlock VARCHAR(255) , 
+        tags VARCHAR(255) , 
         userId INT NOT NULL,
         PRIMARY KEY (questionId),
         FOREIGN KEY (userId) REFERENCES user(userId)
@@ -21,7 +21,7 @@ const questionTable = `CREATE TABLE IF NOT EXISTS question(
 const answerTable = `CREATE TABLE IF NOT EXISTS answer(
             answerId INT NOT NULL AUTO_INCREMENT,
             answer VARCHAR(255) NOT NULL,
-            answerCodeBlock VARCHAR(255) NOT NULL,
+            answerCodeBlock VARCHAR(255) ,
             userId INT NOT NULL,
             questionId INT NOT NULL,
             PRIMARY KEY ( answerId),

@@ -25,32 +25,40 @@ const signUp = async (req, res) => {
     }
 
     // Hashing the password
+
     const salt = await bcrypt.genSalt(10);
     // console.log(salt)
     const hashedPassword = await bcrypt.hash(password, salt);
     // console.log(password)
     // console.log(hashedPassword )
     //  res.send("Checking the salt")
-    await pool.query(
+    let savedUser = await pool.query(
       "INSERT INTO user (firstName, lastName, email, password) VALUES (?,?,?,?)",
       [firstName, lastName, email, hashedPassword]
     );
-
+    let userId = savedUser[0].insertId;
+    // console.log (savedUser[0].insertId);
     // Signing access token
     let user = {
       firstName,
       lastName,
       email,
+      userId,
     };
-    let token = jwt.sign(user, process.env.TOKEN_SECRET);
+    let token = jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "3d" });
 
     res.status(201).json({
       status: true,
       message: "Successfully Signed Up",
       accessToken: token,
     });
-  } catch (error) {}
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ status: false, message: "Something went wrong" });
+  }
 };
+
+// LogIn
 
 const logIn = async (req, res) => {
   let { email, password } = req.body;
@@ -65,17 +73,66 @@ const logIn = async (req, res) => {
     let findUser = await pool.query(`SELECT * FROM user WHERE email = ?`, [
       email,
     ]);
+
+    // Authenticate a user by comparing his password when loging in
+
     let user = findUser[0][0];
+    let { password: p, ...other } = user;
+    console.log(other);
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(403).json({
         status: false,
         message: "Invalid email or password",
       });
     }
-    console.log(user);
-    // conso le.log(findUser);
-    res.send("Checking");
-  } catch (error) {}
+
+    let token = jwt.sign(other, process.env.TOKEN_SECRET, { expiresIn: "3d" });
+
+    res.status(201).json({
+      status: true,
+      message: "Successfully Logged In",
+      accessToken: token,
+    });
+    // console.log(user);
+    // console.log(findUser);
+    //res.send("Checking");
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ status: false, message: "Something went wrong" });
+  }
 };
 
-module.exports = { signUp, logIn };
+// Token
+
+const protect = async (req, res, next) => {
+  let token;
+  if (!req.headers.authorization) {
+    return res
+      .status(403)
+      .json({ status: false, message: "You are not logged in" });
+  }
+  token = req.headers.authorization.split(" ")[1];
+  // console.log(token);
+  // res.send("testing...");
+
+  try {
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    if (!decoded) {
+      return res.status(403).json({
+        status: false,
+        message: "You are not logged in or invalid token",
+      });
+    }
+    req.user = decoded;
+   // console.log(decoded);
+    next();
+    console.log(decoded);
+  } catch (error) {
+    return res.status(403).json({
+      status: false,
+      message: "Invalid token or Token Expired",
+    });
+  }
+};
+
+module.exports = { signUp, logIn, protect };

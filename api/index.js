@@ -4,7 +4,8 @@ const server = express();
 const { pool } = require("./Config/db");
 const { userTable, questionTable, answerTable } = require("./model/model");
 const authRouter = require("./router/authRouter");
-
+const { protect } = require("./controller/authController");
+const questionRouter = require("./router/questionRouter");
 // PORT
 let port = process.env.PORT || 5500;
 // console.log(process.env)
@@ -15,6 +16,20 @@ server.use(express.json()); // to parse the json data which is sent from the bod
 
 // Routers
 server.use("/api/v1", authRouter);
+server.use("/api/v1", questionRouter);
+// Test
+server.get(
+  "/test",
+  protect,
+  (req, res, next) => {
+    console.log("firstFunction");
+    next();
+    res.send("Testing1 ");
+  },
+  (req, res, next) => {
+    console.log("secondFunction");
+  }
+);
 
 const startApp = async (port) => {
   // Establishing the connections
