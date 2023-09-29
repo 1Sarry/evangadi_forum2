@@ -26,7 +26,7 @@ const postQuestion = async (req, res) => {
 const getAllQuestions = async (req, res) => {
   try {
     let questions = await pool.query(
-      `SELECT questionId, question, questionDescription, questionCodeBlock, tags, firstName, lastName, email FROM question JOIN user ON question.userId=user.userId ORDER BY questionId DESC`
+      `SELECT questionId, question, questionDescription, questionCodeBlock, tags, firstName, lastName, email FROM question JOIN user ON question.userId=user.userId WHERE questionId='${questionId}' ORDER BY questionId DESC`
     );
     res.status(200).json({
       status: true,

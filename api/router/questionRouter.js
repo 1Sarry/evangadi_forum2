@@ -13,6 +13,6 @@ Router.route("/questions")
   .post(protect, postQuestion)
   .get(protect, getAllQuestions);
 
-Router.route("/questions/:questionId").get(singleQuestion);
+Router.route("/questions/:questionId").get(protect, singleQuestion);
 
 module.exports = Router;

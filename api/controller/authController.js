@@ -51,6 +51,7 @@ const signUp = async (req, res) => {
       status: true,
       message: "Successfully Signed Up",
       accessToken: token,
+      user: user,
     });
   } catch (err) {
     console.log(err.message);
@@ -92,6 +93,7 @@ const logIn = async (req, res) => {
       status: true,
       message: "Successfully Logged In",
       accessToken: token,
+      user:other,
     });
     // console.log(user);
     // console.log(findUser);
@@ -124,7 +126,7 @@ const protect = async (req, res, next) => {
       });
     }
     req.user = decoded;
-   // console.log(decoded);
+    // console.log(decoded);
     next();
     console.log(decoded);
   } catch (error) {
