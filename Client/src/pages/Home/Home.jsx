@@ -1,11 +1,15 @@
 import React from "react";
 import Header from "../../components/Header/Header";
-import {PiUserCircleThin} from 'react-icons/pi'
+
+import Questions from "../../components/Questions/Questions";
+
 const Home = () => {
   return (
-    <section>
-      <Header />
-      <div className="d-flex justify-content-around bg-body-tertiary">
+    <>
+    <Header />
+    <section className="bg-body-tertiary">
+      
+      <div className="d-flex justify-content-around py-5 ">
         <button className="btn btn-primary action-btn px-5">
           {" "}
           Ask Question
@@ -15,25 +19,15 @@ const Home = () => {
         </p>
       </div>
       <div className="container">
-        <h2>Questions</h2>
-        <a href="">
-          <hr />
-          <div>
-            <div>
-                <div>
-                 {/* ?user/ */}   
-                </div>
-                <div>
-                    {/* question */}
-                </div>
-            </div>
-<div>
-    {/* arrow */}
-    </div>
-          </div>
-        </a>
+        <h2 className="pb-3">Questions</h2>
+        <Questions/>
+        <Questions/>
+        <Questions/>
+        <Questions/>
+        <Questions/>
       </div>
     </section>
+    </>
   );
 };
 
