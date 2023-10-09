@@ -1,6 +1,15 @@
-import React from "react";
+import React, {useState, useContext}from "react";
+import { AuthContext } from "../Authv1/AuthContext";
+
+
 
 const LogIn = ({setCurrentPage}) => {
+  const [email, setEmail] = useState("")
+const [password, setPassword] = useState("")
+const {login} = useContext(AuthContext)
+const submitHandler = (e) =>{
+  e.preventDefault()
+}
   return (
     <div className="col card p-5 text-center">
       <div>
@@ -16,17 +25,19 @@ const LogIn = ({setCurrentPage}) => {
           </a>
         </p>
       </div>
-      <form action="">
+      <form onSubmit={submitHandler}>
         <div className="d-flex flex-column gap-3">
           <input
             type="email"
             className="form-control p-3"
             placeholder="Email Address"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             className="form-control p-3"
             placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="mt-3">
