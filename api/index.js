@@ -3,7 +3,7 @@ require("dotenv").config(); // to add the environment variables we created on th
 const server = express();
 const { pool } = require("./Config/db");
 const { userTable, questionTable, answerTable } = require("./model/model");
-const cors = require("cors")
+const cors = require("cors");
 // Import Routers
 const authRouter = require("./router/authRouter");
 const questionRouter = require("./router/questionRouter");
@@ -19,14 +19,36 @@ let port = process.env.PORT || 5500;
 server.use(express.json()); // to parse the json data which is sent from the body
 
 // Routers
+server.use(cors());
 server.use("/api/v1", authRouter);
 server.use("/api/v1", questionRouter);
 server.use("/api/v1", answerRouter);
 server.use("/api/v1", userRouter);
-server.use(cors())
-server.getMaxListeners("/", (req, res) =>{
-  res.setHeader("Access-Control-Allow-Credentials", true)
-})
+
+
+// server.use("/", (req, res, next)=>{
+//    res.setHeader("Access-Control-Allow-Origin:http://localhost:5173");
+// 		res.setHeader("Access-Control-Allow-Credentials", "true");
+// 		res.setHeader("Access-Control-Allow-Headers", "content-type");
+// 		res.setHeader("Access-Control-Allow-Methods","PUT, POST, GET, DELETE, PATCH, OPTIONS");
+//   next()
+// })
+// server.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     " Access-Control-Allow-Methods: POST",
+//     "Access-Control-Allow-Headers",
+//     "content-type",
+//     "Authorization"
+//   );
+//   next();
+// });
+
+// server.getMaxListeners("/", (req, res) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.send("API is running");
+// });
 
 // Test
 // server.get(

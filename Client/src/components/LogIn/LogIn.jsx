@@ -9,9 +9,10 @@ const [password, setPassword] = useState("")
 const {login} = useContext(AuthContext)
 const submitHandler = (e) =>{
   e.preventDefault()
+  login(email, password);
 }
   return (
-    <div className="col card p-5 text-center">
+    <div className="col card p-5 text-center"> 
       <div>
         <h3 className="m-3">Login to your account</h3>
         <p className="mb-5">

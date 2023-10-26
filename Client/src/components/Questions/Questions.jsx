@@ -1,7 +1,7 @@
 import React from 'react'
 import { PiUserCircleThin } from "react-icons/pi";
 import { LiaAngleRightSolid } from "react-icons/lia";
-const Questions = () => {
+const Questions = ({firstName, lastName, question }) => {
   return (
     <a className="text-decoration-none text-black" href="#">
           <hr />
@@ -12,14 +12,12 @@ const Questions = () => {
                   <PiUserCircleThin color="gray"/>
                 </div>
                 {/* ?user/ */}
-                <div>Saron Meles</div>
+                <div>{firstName} {lastName}</div>
               </div>
               <div>
                 {/* question */}
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Dolor, rem nam ad earum sequi itaque sed! Dolor libero unde
-                  velit.
+                  {question}
                 </p>
               </div>
             </div>

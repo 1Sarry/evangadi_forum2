@@ -62,6 +62,7 @@ const signUp = async (req, res) => {
 // LogIn
 
 const logIn = async (req, res) => { 
+  console.log('inside login')
   let { email, password } = req.body;
 
   if (!email || !password) {

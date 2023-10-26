@@ -2,6 +2,9 @@ import { createContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { axiosInstance, endPoint } from "../../endPoint/api";
+import axios from "axios";
+import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const initialState = {
   isAuthenticated: false,
@@ -33,9 +36,12 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
 
+// Token
+
   useEffect(() => {
     const checkAuthentication = async () => {
-      const token = Cookie.get("accessToken");
+      //Cookie.set('accessToken', { sameSite: 'none' })
+      const token = Cookie.get("accessToken" , { sameSite: 'none' });
       if (token) {
         try {
           const response = await axiosInstance.get(endPoint.ME, {
@@ -43,57 +49,131 @@ export const AuthProvider = ({ children }) => {
               Authorization: `Bearer ${token}`,
             },
           });
+          console.log(response.data.Me.firstName)
           if (response.status === 200) {
             dispatch({
               type: "SET_USER",
-              payload: response.data?.user,
+              payload: response.data?.Me,
             });
           }
-        } catch (error) {
+          
+        } 
+        
+        catch (error) {
           console.log("Authentication Error", error);
           dispatch({
             type: "LOGOUT",
           });
           navigate("/");
         }
-      }
-      else{
+      } 
+      
+      else {
         dispatch({
-            type:"LOGOUT"
-        })
-        navigate("/")
+          type: "LOGOUT",
+        });
+        navigate("/");
       }
     };
-    checkAuthentication()
+    
+    checkAuthentication();
   }, [navigate]);
 
-  const logout = () =>{
-    Cookie.remove("accessToken")
-    dispatch ({
-        type:"LOGOUT"
-    })
-    navigate("/")
-  }
-  const login =  async(email, password) =>{ 
+// LogOut
+
+  const logout = () => {
+    Cookie.remove("accessToken");
+    dispatch({
+      type: "LOGOUT",
+    });
+    navigate("/");
+  };
+
+// LogIn
+
+  const login = async (email, password) => {
+    console.log(endPoint.LOGIN)
     try {
-        const response = await axiosInstance.post(endPoint.LOGIN, {
-            email, password
-        })
-        if(response.status === 200){
-            const {accessToken, user} = response.data
-            Cookie.set("accessToken", accessToken) 
+      const response = await axios.post(endPoint.LOGIN, {
+        email, password
+      });
 
-            dispatch({
-                type: "SET_USER",              
-                payload : response.data?.data?.user
-            })
-              navigate("/home")      }
+      console.log(response)
+      if (response.status === 201) {
+        const { accessToken, user } = response.data;
+        Cookie.set("accessToken", accessToken);
+
+        dispatch({
+          type: "SET_USER",
+          payload: user,
+        });
+        toast.success('Successfully Logged In!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          });
+        navigate("/home");
+      }
     } catch (error) {
-        console.log(error)
+      toast.error(error.response?.data?.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        });
+      console.log(error);
     }
+  };
+
+  // Sign Up
+
+  const signup  = async (email, firstName, lastName, password) =>{
+try {
+  const response = await axiosInstance.post(endPoint.SIGNUP, {firstName, lastName, email, password})
+  if(response.status === 201){
+const {accessToken, user} =response.data
+toast.success('Successfully Signed Up!', {
+  position: "top-right",
+  autoClose: 3000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: "light",
+  });
+Cookies.set("accessToken", accessToken)
+dispatch({type: "SET_USER", payload: user})
+navigate("navigate")
+  }
+} catch (error) {
+  console.log(error)
+  toast.error(error.response?.data?.message, {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    });
+}
   }
 
-
-
-  return <AuthContext.Provider value={{state, logout, login}}>{children}</AuthContext.Provider>
+  
+  return (
+    <AuthContext.Provider value={{ state, logout, login, signup }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

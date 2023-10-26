@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
-
+import React, {useState, useContext} from 'react'
+import { AuthContext } from '../Authv1/AuthContext'
 const SingUp = ({setCurrentPage}) => {
-  
+  const {signup} = useContext(AuthContext)  
   return (
     <div className="col card p-5 text-center">
     <div>
-      <h3 className="m-3">Join the network</h3>
+      <h3 className="m-3">Join the Network</h3>
       <p className="mb-5">
         Already have an account?{" "}
         <a
@@ -13,7 +13,7 @@ const SingUp = ({setCurrentPage}) => {
           href="#"
           className="fw-semibold  text-decoration-none text-warning"
         >
-          Sign in
+          Sign In
         </a>
       </p>
     </div>
@@ -48,7 +48,7 @@ const SingUp = ({setCurrentPage}) => {
       <div className="d-grid">
         <button 
         type="submit"
-        className="btn btn-primary action-btn fs-5 fw-semibold p-3">Log In</button>
+        className="btn btn-primary action-btn fs-5 fw-semibold p-3">Agree and Join</button>
       </div>
       <div className="mt-3">
         <p className="d-flex justify-content-center"> <a onClick={()=>setCurrentPage("login")} href="" className="fw-semibold text-decoration-none text-warning">Already have an account</a></p>
