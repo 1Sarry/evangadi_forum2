@@ -15,7 +15,7 @@ const postQuestion = async (req, res) => {
       [question, questionDescription, questionCodeBlock, tags, userId]
     );
     res
-      .status(200)
+      .status(201)
       .json({ status: true, message: "Question Posted Successfully" });
   } catch (error) {
     console.log(error.message);
@@ -28,7 +28,7 @@ const getAllQuestions = async (req, res) => {
     let questions = await pool.query(
       `SELECT questionId, question, questionDescription, questionCodeBlock, tags, firstName, lastName, email FROM question JOIN user ON question.userId=user.userId WHERE questionId='${questionId}' ORDER BY questionId DESC`
     );
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       total: questions[0].length,
       questions: questions[0],
@@ -47,7 +47,7 @@ const singleQuestion = async (req, res) => {
     );
     console.log(question[0]);
     res.send(question[0]);
-    res.status(200).json({ status: true, question: question[0][0] });
+    res.status(201).json({ status: true, question: question[0][0] });
   } catch (err) {
     console.log(err.message);
     res.status(500).json({ status: false, message: "Something went wrong" });

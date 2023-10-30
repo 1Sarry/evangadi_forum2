@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Sign Up
-
+// Middleware
 const signUp = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
@@ -42,7 +42,7 @@ const signUp = async (req, res) => {
     let user = {
       firstName,
       lastName,
-      email,
+      email, 
       userId,
     };
     let token = jwt.sign(user, process.env.TOKEN_SECRET, { expiresIn: "3d" });
@@ -79,6 +79,7 @@ const logIn = async (req, res) => {
     // Authenticate a user by comparing his password when loging in
 
     let user = findUser[0][0];
+    // To make it except the Password
     let { password: p, ...other } = user;
     console.log(other);
     if (!user || !(await bcrypt.compare(password, user.password))) {

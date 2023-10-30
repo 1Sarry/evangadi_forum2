@@ -15,7 +15,7 @@ const postAnswer = async (req, res) => {
       [answer, answerCodeBlock, userId, questionId]
     );
     res
-      .status(200)
+      .status(201)
       .json({ status: true, message: "Answer posted successfully" });
   } catch (err) {
     console.log(err.message);
@@ -31,7 +31,7 @@ const getAllAnsewersAlongWithTheirQuestion = async (req, res) => {
     let answersAndQuestion = await pool.query(
       `SELECT answer, answerCodeBlock, answerId, firstName, lastName, email, question FROM answer JOIN question ON question.questionId=answer.questionId JOIN user ON user.userId=answer.userId WHERE answer.questionId='${questionId} ORDER BY answerId DESC' `
     );
-    res.status(200).json({
+    res.status(201).json({
       status: true,
       total: answersAndQuestion[0].length,
       answers: answersAndQuestion[0],

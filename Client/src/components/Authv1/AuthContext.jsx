@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       //Cookie.set('accessToken', { sameSite: 'none' })
-      const token = Cookie.get("accessToken" , { sameSite: 'none' });
+      const token = Cookies.get("accessToken" , { sameSite: 'none' });
       if (token) {
         try {
           const response = await axiosInstance.get(endPoint.ME, {
@@ -49,8 +49,8 @@ export const AuthProvider = ({ children }) => {
               Authorization: `Bearer ${token}`,
             },
           });
-          console.log(response.data.Me.firstName)
-          if (response.status === 200) {
+          //console.log(response.data.Me.firstName)
+          if (response.status === 201) {
             dispatch({
               type: "SET_USER",
               payload: response.data?.Me,
@@ -89,6 +89,7 @@ export const AuthProvider = ({ children }) => {
     navigate("/");
   };
 
+  
 // LogIn
 
   const login = async (email, password) => {
@@ -136,7 +137,7 @@ export const AuthProvider = ({ children }) => {
 
   // Sign Up
 
-  const signup  = async (email, firstName, lastName, password) =>{
+  const signup  = async ( firstName, lastName, email, password) =>{
 try {
   const response = await axiosInstance.post(endPoint.SIGNUP, {firstName, lastName, email, password})
   if(response.status === 201){
@@ -153,7 +154,7 @@ toast.success('Successfully Signed Up!', {
   });
 Cookies.set("accessToken", accessToken)
 dispatch({type: "SET_USER", payload: user})
-navigate("navigate")
+navigate("/home")
   }
 } catch (error) {
   console.log(error)
