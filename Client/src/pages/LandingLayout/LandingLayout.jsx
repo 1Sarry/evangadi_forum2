@@ -7,7 +7,7 @@ import SingUp from "../../components/SignUp/SingUp";
 const LandingLayout = () => {
   const [currentPage, setCurrentPage] = useState('login')
   return (
-    <section>
+    <section className="">
       <Header />
       <main
         className="landing bg-body-tertiary"
@@ -17,7 +17,7 @@ const LandingLayout = () => {
           backgroundSize: "cover",
         }}
       >
-        <section className="container d-md-flex pt-5 gap-5">
+        <section className="container d-md-flex pt-5 gap-5 landing-container">
           {/* form */}
           {currentPage === 'login' && <LogIn setCurrentPage={setCurrentPage}/>}
           {currentPage === 'signup' && <SingUp setCurrentPage={setCurrentPage} />} 

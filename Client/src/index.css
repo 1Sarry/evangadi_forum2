@@ -13,6 +13,9 @@
 .landing {
   height: 100vh;
 }
+/* .landing-container{
+  padding-top: 300px!important;
+} */
 .user svg {
   width: 100px;
   height: 100px;

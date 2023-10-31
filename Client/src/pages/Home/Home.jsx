@@ -21,7 +21,7 @@ const Home = () => {
         setQuestions(res.data.questions);
       })
       .catch((err) => {
-        console.error(err.stack); 
+        console.log(err); 
       });
   }, []);
   return (
@@ -39,7 +39,7 @@ const Home = () => {
           </p>
         </div>
         <div className="container">
-          <h2 className="pb-3">Questions</h2>
+          <h2 className="pb-3 m-0">Questions</h2>
           {questions?.map((questionss) => {
             return (
               <Questions
