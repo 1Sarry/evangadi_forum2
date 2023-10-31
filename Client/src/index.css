@@ -10,10 +10,21 @@
   color: #fe8402 !important;
   transition: all 0.3s ease-out;
 }
-.landing{
-    height: 100vh;
+.landing {
+  height: 100vh;
 }
-.user svg{
+.user svg {
   width: 100px;
   height: 100px;
+}
+.footer-bg {
+  background-color: #3b455a;
+}
+.footer-item ul li {
+  color: rgb(213, 213, 213, 0.6);
+}
+.footer-item ul li:hover {
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease-in;
 }
