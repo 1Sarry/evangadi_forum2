@@ -12,7 +12,7 @@ const submitHandler = (e) =>{
   login(email, password);
 }
   return (
-    <div className="col card p-5 text-center"> 
+    <div className="col card shadow p-5 text-center"> 
       <div>
         <h3 className="m-3">Login to your account</h3>
         <p className="mb-5">

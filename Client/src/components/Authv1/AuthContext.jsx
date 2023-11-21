@@ -27,6 +27,13 @@ const reducer = (state, action) => {
         user: null,
         isLoading: false,
       };
+      // case "POSTQ":
+      //   return{
+      //     ...state,
+      //     user: action.payload,
+      //     isAuthenticated: true,
+      //     isLoading:false,
+      //   }
     default:
       return state;
   }
@@ -170,10 +177,27 @@ navigate("/home")
     });
 }
   }
+// postQuestions
+const postquestion =async ({title, description}, id)=>{
+  try {
+    // const token= Cookies.get("accessToken");
+    //const config={headers:{authorization:`Bearer ${token}`}};
+    const res =await axiosInstance.post(endPoint.QUESTIONS, {title, description} )
+    if(res.status === 201){
+      const {accessToken, user} =response.data
+      Cookies.set("accessToken", accessToken)
+      dispatch({ type:"POSTQ", payload : user })
+    }
 
+    
+    }catch(err){
+      console.log(err)
+      
+      }
+      };
   
   return (
-    <AuthContext.Provider value={{ state, logout, login, signup }}>
+    <AuthContext.Provider value={{ state, logout, login, signup, postquestion }}>
       {children}
     </AuthContext.Provider>
   );

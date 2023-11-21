@@ -12,7 +12,7 @@ const SingUp = ({setCurrentPage}) => {
   })
 
   const {signup} = useContext(AuthContext) 
-  const handleSubmit= (e)=>{
+  const handlePost= (e)=>{
     e.preventDefault()
     signup(user.firstName, user.lastName, user.email, user.password)
   }
@@ -31,7 +31,7 @@ const SingUp = ({setCurrentPage}) => {
         </a>
       </p>
     </div>
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handlePost}>
       <div className="d-flex flex-column gap-3">
         <input
           type="email"

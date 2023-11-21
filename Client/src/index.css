@@ -10,12 +10,16 @@
   color: #fe8402 !important;
   transition: all 0.3s ease-out;
 }
-.landing {
-  height: 100vh;
+.landing-main{
+  height: 100%;
 }
-/* .landing-container{
-  padding-top: 300px!important;
-} */
+.card {
+  border-color: white!important;
+}
+.hr-line{
+  border-color: rgb(190, 190, 190)!important;
+}
+
 .user svg {
   width: 100px;
   height: 100px;

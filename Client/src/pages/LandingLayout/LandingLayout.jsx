@@ -7,23 +7,23 @@ import SingUp from "../../components/SignUp/SingUp";
 const LandingLayout = () => {
   const [currentPage, setCurrentPage] = useState('login')
   return (
-    <section className="">
+    <section className="landing-main ">
       <Header />
       <main
-        className="landing bg-body-tertiary"
+        className="landing bg-body-tertiary py-5"
         style={{
           background: `url(${bg})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
         }}
       >
-        <section className="container d-md-flex pt-5 gap-5 landing-container">
+        <section className="container d-md-flex pt-5 gap-5 landing-container pb-5">
           {/* form */}
           {currentPage === 'login' && <LogIn setCurrentPage={setCurrentPage}/>}
           {currentPage === 'signup' && <SingUp setCurrentPage={setCurrentPage} />} 
             
           {/* welcome message */}
-          <div className="col d-flex flex-column justify-content-center">
+          <div className="col d-flex flex-column justify-content-center pt-5">
             <p className="text-warning fw-semibold">About</p>
             <h1 className="fw- bold"  style={{color: '#4B456F'}}>Evangadi Networks Q&A</h1>
             <div className="d-flex flex-column gap-4 fs-5 ">

@@ -4,6 +4,8 @@ import Questions from "../../components/Questions/Questions";
 import { AuthContext } from "../../components/Authv1/AuthContext";
 import { axiosInstance, endPoint } from "../../endPoint/api";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
   const { state } = useContext(AuthContext);
   const [questions, setQuestions] = useState([]);
@@ -24,12 +26,18 @@ const Home = () => {
         console.log(err); 
       });
   }, []);
+  // Navigate to ask question page
+  const navigate = useNavigate();
+const NavToAskQuestion = () =>{
+  navigate('/askquestions')
+}
+
   return (
     <>
       <Header />
       <section className="bg-body-tertiary">
         <div className="d-flex justify-content-around py-5 ">
-          <button className="btn btn-primary action-btn px-5">
+          <button onClick={NavToAskQuestion}  className="btn btn-primary action-btn px-5">
             {" "}
             Ask Question
           </button>
@@ -38,7 +46,7 @@ const Home = () => {
             {state?.user?.firstName}
           </p>
         </div>
-        <div className="container">
+        <div className="container pb-5">
           <h2 className="pb-3 m-0">Questions</h2>
           {questions?.map((questionss) => {
             return (
